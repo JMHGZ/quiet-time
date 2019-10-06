@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import Nav from "./Nav";
 import JournalForm from "./JournalForm";
 import Post from "./Post.jsx";
+import userService from "./utils/userService";
 
 import "./App.css";
 
 class App extends Component {
   state = {
+    user: userService.getUser(),
     isShowing: true,
     posts: []
   };
