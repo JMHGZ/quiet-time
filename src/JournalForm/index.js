@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 class JournalForm extends Component {
   state = {
-    title: "",
     author: "",
     post: ""
   };
@@ -23,26 +22,10 @@ class JournalForm extends Component {
     return (
       <form className="blog-form">
         <div>
-          <label>title</label>
-          <input
-            type="text"
-            name="title"
-            onChange={this.handleOnChange}
-            value={this.state.post}
-          />
-          <label>author</label>
-          <input
-            type="text"
-            name="author"
-            onChange={this.handleOnChange}
-            value={this.state.author}
-          />
-        </div>
-        <div>
           <label>post</label>
           <textarea
             type="text"
-            name="content"
+            name="post"
             onChange={this.handleOnChange}
             value={this.state.post}
           />
