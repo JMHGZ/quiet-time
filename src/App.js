@@ -1,18 +1,53 @@
 import React, { Component } from "react";
 import Nav from "./Nav";
-import JournalForm from "./JournalForm";
+import JournalForm from "./JournalForm/index";
 import Post from "./Post.jsx";
 import userService from "./utils/userService";
-
-import "./App.css";
 import SignupPage from "./pages/SignupPage/SignupPage";
+import "./App.css";
 
 class App extends Component {
   state = {
     user: userService.getUser(),
     isShowing: true,
-    posts: []
+    posts: [],
+    joke: ""
   };
+
+  componentDidMount = () => {
+    getQuotes().then(results => {
+      console.log(results.value);
+      this.setState({
+        joke: results.value
+      });
+    });
+  };
+
+  handleAddPost = ({ title, posts }) => {
+    const url = "http://localhost:3001/api/posts";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({ title, posts })
+    };
+
+    handleFetch(url, options).then(results => {
+      this.setState({
+        posts: [...this.state.posts, results],
+        isShowing: false
+      });
+    });
+  };
+
+  // handleUpdatePost = async updatedPostData => {
+  //   const updatedPost = await quoteAPI.update(updatedPostData);
+  //   const newPostsArray = this.state.posts.map(p =>
+  //     p._id === updatedPost._id ? updatedPost : p
+  //   );
+  //   this.setState({ posts: newPostsArray }, () => this.props.history.push("/"));
+  // };
 
   handleLogout = () => {
     userService.logOut();
@@ -31,7 +66,6 @@ class App extends Component {
       return (
         <Post
           key={index}
-          user={item.author}
           content={item.post}
           handleDelete={this.handleDelete}
           id={index}
@@ -41,13 +75,17 @@ class App extends Component {
     return (
       <div className="App container">
         <Nav content={title} />
-        {composedPosts}
+
         <SignupPage signIn={this.handleSignupOrLogin} />
         {this.state.isShowing ? (
-          <JournalForm
-            handleAddPost={this.handleAddPost}
-            handleToggle={this.handleShowForm}
-          />
+          <div>
+            {this.state.joke}
+            <JournalForm
+              handleAddPost={this.handleAddPost}
+              handleToggle={this.handleShowForm}
+            />
+            <ul>{composedPosts}</ul>
+          </div>
         ) : (
           <button onClick={this.handleShowForm}>Post</button>
         )}
@@ -57,3 +95,15 @@ class App extends Component {
 }
 
 export default App;
+
+async function handleFetch(url, options) {
+  const stream = await fetch(url, options);
+  const json = await stream.json();
+  return await json;
+}
+
+async function getQuotes() {
+  const initialFetch = await fetch("https://api.chucknorris.io/jokes/random");
+  const joke = await initialFetch.json();
+  return joke;
+}
