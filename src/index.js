@@ -4,10 +4,13 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router } from "react-router-dom";
+import NavBar from "./components/NavBar/NavBar";
 
 ReactDOM.render(
   <Router>
-    <App />
+    <NavBar>
+      <App />
+    </NavBar>
   </Router>,
   document.getElementById("root")
 );

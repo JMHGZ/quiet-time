@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import userService from "../../utils/userService";
+import { Route, Link, Redirect } from "react-router-dom";
+
 class SignupForm extends Component {
   state = {
     name: "",
@@ -22,7 +23,7 @@ class SignupForm extends Component {
     try {
       await userService.signup(this.state);
       //let app know user has signed up
-      this.props.signIn();
+      await this.props.signIn();
       // Successfully signed up - show beers page
       // this.props.history.push("/beers");
     } catch (err) {
@@ -41,13 +42,13 @@ class SignupForm extends Component {
 
   render() {
     return (
-      <div className="">
+      <div className="LoginPage">
+        <header className="header-footer">Or, Sign Up!</header>
         <form onSubmit={this.handleSubmit} autoComplete="off">
-          <div className="">
-            <div className="">
-              <label>Name</label>
+          <div className="col-sm-12">
+            <div className="form-group">
               <input
-                className=""
+                className="form-control"
                 type="text"
                 placeholder="Name"
                 value={this.state.name}
@@ -55,10 +56,9 @@ class SignupForm extends Component {
                 onChange={this.handleChange}
               />
             </div>
-            <div className="">
-              <label>Email</label>
+            <div className="form-group">
               <input
-                className=""
+                className="form-control"
                 type="email"
                 placeholder="Email"
                 value={this.state.email}
@@ -66,10 +66,9 @@ class SignupForm extends Component {
                 onChange={this.handleChange}
               />
             </div>
-            <div className="">
-              <label>Password</label>
+            <div className="form-group">
               <input
-                className=""
+                className="form-control"
                 type="password"
                 placeholder="Password"
                 value={this.state.password}
@@ -77,10 +76,9 @@ class SignupForm extends Component {
                 onChange={this.handleChange}
               />
             </div>
-            <div className="">
-              <label>Confirm password</label>
+            <div className="form-group">
               <input
-                className=""
+                className="form-control"
                 type="password"
                 placeholder="Confirm Password"
                 value={this.state.passwordConf}
@@ -92,12 +90,37 @@ class SignupForm extends Component {
               </small>
             </div>
           </div>
-          <div>
-            <button className="" disabled={this.isFormInvalid()}>
+          {/* <div>
+            <a className="" disabled={this.isFormInvalid()}>
               Sign Up
-            </button>
+            </a>
             &nbsp;&nbsp;
             <Link to="/">Cancel</Link>
+          </div> */}
+
+          {/* <Route
+            exact
+            path="http://localhost:3002/"
+            render={() =>
+              userService.getUser() ? (
+                <Link
+                  posts={this.state.posts}
+                  handleUpdatePost={this.handleUpdatePost}
+                />
+              ) : (
+                <Redirect to="/login" />
+              )
+            }
+          /> */}
+
+          <div className="form-group">
+            <div className="col-sm-12 text-center">
+              <a className="btn btn-default" href="http://localhost:3002/">
+                Sign Up
+              </a>
+              &nbsp;&nbsp;&nbsp;
+              <Link to="/">Cancel</Link>
+            </div>
           </div>
         </form>
       </div>

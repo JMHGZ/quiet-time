@@ -19,3 +19,27 @@
 .App-link {
   color: #09d3ac;
 }
+
+input {
+  margin: 0.4em;
+}
+
+a {
+  color: red;
+  font-family: helvetica;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+a:active {
+  color: black;
+}
+
+a:visited {
+  color: purple;
+}

@@ -1,52 +1,36 @@
 import React, { Component } from "react";
-import Nav from "./Nav";
-import JournalForm from "./JournalForm/index";
-import Post from "./Post.jsx";
+// import Nav from "./Nav";
+import { Route, Switch, Redirect } from "react-router-dom";
+// import JournalForm from "./JournalForm/index";
+// import Post from "./Post.jsx";
+import NavBar from "./components/NavBar/NavBar";
 import userService from "./utils/userService";
+import tokenService from "./utils/tokenService";
 import SignupPage from "./pages/SignupPage/SignupPage";
 import "./App.css";
+import LoginPage from "./pages/LoginPage/LoginPage";
 
 class App extends Component {
   state = {
     user: userService.getUser(),
     isShowing: true,
     posts: [],
-    joke: ""
+    joke: "",
+    edit: ""
   };
 
-  componentDidMount = () => {
-    getQuotes().then(results => {
-      console.log(results.value);
-      this.setState({
-        joke: results.value
-      });
-    });
-  };
-
-  handleAddPost = ({ title, posts }) => {
-    const url = "http://localhost:3001/api/posts";
-    const options = {
-      method: "POST",
-      headers: {
-        "content-type": "application/json"
-      },
-      body: JSON.stringify({ title, posts })
-    };
-
-    handleFetch(url, options).then(results => {
-      this.setState({
-        posts: [...this.state.posts, results],
-        isShowing: false
-      });
-    });
-  };
-
-  // handleUpdatePost = async updatedPostData => {
-  //   const updatedPost = await quoteAPI.update(updatedPostData);
-  //   const newPostsArray = this.state.posts.map(p =>
-  //     p._id === updatedPost._id ? updatedPost : p
-  //   );
-  //   this.setState({ posts: newPostsArray }, () => this.props.history.push("/"));
+  // componentDidMount = () => {
+  //   getQuotes().then(results => {
+  //     console.log(results.value);
+  //     this.setState({
+  //       joke: results.value
+  //     });
+  //   });
+  //   getAll().then(results => {
+  //     this.setState({
+  //       posts: [...results]
+  //     });
+  //   });
   // };
 
   handleLogout = () => {
@@ -61,49 +45,38 @@ class App extends Component {
   };
 
   render() {
-    const title = <h1>Quiet Time Quotes</h1>;
-    const composedPosts = this.state.posts.map((item, index) => {
-      return (
-        <Post
-          key={index}
-          content={item.post}
-          handleDelete={this.handleDelete}
-          id={index}
-        />
-      );
-    });
     return (
       <div className="App container">
-        <Nav content={title} />
+        {/* <Switch>
+          <Route exact path="/" render={({ history }) => <h1>Hello</h1>} />
+          <Route
+            exact
+            path="/signup"
+            render={({ history }) => (
+              <SignupPage history={history} signIn={this.handleSignupOrLogin} />
+            )}
+          />
+          <Route
+            exact
+            path="/login"
+            render={({ history }) => (
+              <LoginPage history={history} signIn={this.handleSignupOrLogin} />
+            )}  
+          />
+        </Switch> */}
 
-        <SignupPage signIn={this.handleSignupOrLogin} />
-        {this.state.isShowing ? (
-          <div>
-            {this.state.joke}
-            <JournalForm
-              handleAddPost={this.handleAddPost}
-              handleToggle={this.handleShowForm}
-            />
-            <ul>{composedPosts}</ul>
-          </div>
-        ) : (
-          <button onClick={this.handleShowForm}>Post</button>
-        )}
+        <div className="login">
+          {" "}
+          <LoginPage signIn={this.handleSignupOrLogin} />
+        </div>
+        <hr />
+        <div className="signup">
+          {" "}
+          <SignupPage signIn={this.handleSignupOrLogin} />
+        </div>
       </div>
     );
   }
 }
 
 export default App;
-
-async function handleFetch(url, options) {
-  const stream = await fetch(url, options);
-  const json = await stream.json();
-  return await json;
-}
-
-async function getQuotes() {
-  const initialFetch = await fetch("https://api.chucknorris.io/jokes/random");
-  const joke = await initialFetch.json();
-  return joke;
-}
