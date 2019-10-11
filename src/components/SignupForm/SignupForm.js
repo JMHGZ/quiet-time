@@ -43,7 +43,7 @@ class SignupForm extends Component {
   render() {
     return (
       <div className="LoginPage">
-        <header className="header-footer">Or, Sign Up!</header>
+        <header className="header-footer">Or, SIGN UP!</header>
         <form onSubmit={this.handleSubmit} autoComplete="off">
           <div className="col-sm-12">
             <div className="form-group">
@@ -90,28 +90,6 @@ class SignupForm extends Component {
               </small>
             </div>
           </div>
-          {/* <div>
-            <a className="" disabled={this.isFormInvalid()}>
-              Sign Up
-            </a>
-            &nbsp;&nbsp;
-            <Link to="/">Cancel</Link>
-          </div> */}
-
-          {/* <Route
-            exact
-            path="http://localhost:3002/"
-            render={() =>
-              userService.getUser() ? (
-                <Link
-                  posts={this.state.posts}
-                  handleUpdatePost={this.handleUpdatePost}
-                />
-              ) : (
-                <Redirect to="/login" />
-              )
-            }
-          /> */}
 
           <div className="form-group">
             <div className="col-sm-12 text-center">

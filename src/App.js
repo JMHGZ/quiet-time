@@ -19,20 +19,6 @@ class App extends Component {
     edit: ""
   };
 
-  // componentDidMount = () => {
-  //   getQuotes().then(results => {
-  //     console.log(results.value);
-  //     this.setState({
-  //       joke: results.value
-  //     });
-  //   });
-  //   getAll().then(results => {
-  //     this.setState({
-  //       posts: [...results]
-  //     });
-  //   });
-  // };
-
   handleLogout = () => {
     userService.logOut();
     this.setState({
@@ -47,24 +33,6 @@ class App extends Component {
   render() {
     return (
       <div className="App container">
-        {/* <Switch>
-          <Route exact path="/" render={({ history }) => <h1>Hello</h1>} />
-          <Route
-            exact
-            path="/signup"
-            render={({ history }) => (
-              <SignupPage history={history} signIn={this.handleSignupOrLogin} />
-            )}
-          />
-          <Route
-            exact
-            path="/login"
-            render={({ history }) => (
-              <LoginPage history={history} signIn={this.handleSignupOrLogin} />
-            )}  
-          />
-        </Switch> */}
-
         <div className="login">
           {" "}
           <LoginPage signIn={this.handleSignupOrLogin} />
